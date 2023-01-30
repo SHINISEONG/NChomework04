@@ -134,4 +134,55 @@ try {
 		}
 		return findUserResult;
 	}//end of userAdd()
+	
+	public boolean updateUser(UserVO userVO) {
+		Connection con = null;
+		PreparedStatement pr = null;
+		ResultSet rs = null;
+		boolean updateUserResult = false;
+		System.out.println(userVO);
+try {
+			
+			con = OracleConnectionPool.getInstance().getConnection();
+			
+			pr = con.prepareStatement("UPDATE user_info SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )");
+			pr.setString(1, userVO.getUserName());
+			pr.setString(2, userVO.getSex());
+			pr.setString(3, userVO.getBirthDay());
+			pr.setString(4, userVO.getJobs());
+			pr.setString(5, userVO.getCellNum());
+			pr.setString(6, userVO.getAddr());
+			
+			
+			
+			if(pr.executeUpdate() == 1) {
+				updateUserResult = true;				
+			} else {
+				System.out.println("UPDATE ½ÇÆÐ");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e1) {
+				}
+			}
+			if (pr != null) {
+				try {
+					pr.close();
+				} catch (SQLException e2) {
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e3) {
+				}
+			}
+		}
+		return updateUserResult;
+	}//end of updateUser()
+	
 }

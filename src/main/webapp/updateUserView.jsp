@@ -1,15 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<%@ page import = "model.*" %>
+
+<%
+UserVO userVO = new UserVO(); 
+userVO = (UserVO)session.getAttribute("userVO"); 
+
+int birthYear = Integer.parseInt(userVO.getBirthDay().substring(0, 4));
+int birthMonth = Integer.parseInt(userVO.getBirthDay().substring(5, 7));
+int birthDate = Integer.parseInt(userVO.getBirthDay().substring(8,10));
+String [] cellNum =userVO.getCellNum().split("-");
+%>
 <!DOCTYPE html>
-<html lang="ko">
-    
-    <head><meta charset="EUC-KR"><title>회원 가입 페이지 입니다.</title></head>
-    <body>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>addUserView</title>
+</head>
+<body>
+ 
         
-        <form method="post" action="addUser.jsp">
+        <form method="post" action="updateUser.jsp">
             <table>
             <tr height="10">
                 <td>
                     ■
-                    <font size="4">개인정보</font>
+                    <font size="4">정보 수정</font>
                 </td>
                 <td colspan='3' align='right'>
                     <input type='button' name='help' value='?'>
@@ -23,69 +39,39 @@
             </tr>    
             <tr height="30">
                 <td width="150">* 이름</td>
-                <td><input type='text' name='userName'></td>
+                <td><input type='text' name='userName' value = '<%=userVO.getUserName() %>'></td>
             </tr>
             <tr height="30">
                 <td>* 성별</td>
                 <td>
-                  <input type='radio' name='sex' value='male' checked>남성
+                <%if(userVO.getSex().equals("male")) { %>
+                   <input type='radio' name='sex' value='male' checked>남성
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                    <input type='radio' name='sex' value='female'>여성
+                <%} else { %>
+                	<input type='radio' name='sex' value='male' >남성
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <input type='radio' name='sex' value='female' checked>여성
+                <%} %>
                 </td>
             </tr>
             <tr height="30">
                 <td>* 생년월일</td>
-                <td><input type='text' name='birthYear' style="width:60px">년 &nbsp;
-                
+               
+                <td><input type='text' name='birthYear' value = '<%=birthYear%>'style="width:60px">년 &nbsp;
                     <select name = birthMonth>
-                        <option value="none">--선택--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
+                        <option  value="none">--선택--</option>
+                        
+                        <% for (int i=1; i<=12; i++) {%>
+                        <option <%= birthMonth==i?"selected":""%> value="<%=i%>"><%=i %></option>
+                        <% } %>
+                        
                     </select>월 &nbsp;
 
                     <select name = birthDate>
-                        <option value="none">--선택--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
+                         <% for (int i=1; i<=31; i++) {%>
+                        <option <%= birthMonth==i?"selected":""%> value="<%=i%>"><%=i %></option>
+                        <% } %>
                     </select>일
                     <td><input type='radio' name='solar' value='true' checked>양력
                     <input type='radio' name='solar' value='false'>음력 (
@@ -109,13 +95,13 @@
                 <td>* 직업</td>
                 <td>
                 <select name = jobs style="width:200px">
-                    <option value="none">--선택하세요--</option>
-                    <option value="selfEmployed">자영업</option>
-                    <option value="profession">전문직</option>
-                    <option value="service">서비스직</option>
-                    <option value="office">사무직</option>
-                    <option value="student">학생</option>
-                    <option value="noJobs">무직</option>
+                    <option <%=userVO.getJobs().equals("none") %> value="none">--선택하세요--</option>
+                    <option <%=userVO.getJobs().equals("selfEmployed") %>value="selfEmployed">자영업</option>
+                    <option <%=userVO.getJobs().equals("profession") %>value="profession">전문직</option>
+                    <option <%=userVO.getJobs().equals("service") %>value="service">서비스직</option>
+                    <option <%=userVO.getJobs().equals("office") %>value="office">사무직</option>
+                    <option <%=userVO.getJobs().equals("student") %>value="student">학생</option>
+                    <option <%=userVO.getJobs().equals("noJobs") %>value="noJobs">무직</option>
                 </select>
             </td>
             <td>소속</td>
@@ -153,9 +139,9 @@
             <tr>
                 <td colspan="2">
                     ·휴대폰&nbsp;&nbsp;&nbsp;
-                    <input type='text' name='cellCountryCode' style="width:40px">-
-                    <input type='text' name='cellMidNum'style="width:40px">-
-                    <input type='text' name='cellLastNum'style="width:40px">
+                    <input type='text' name='cellCountryCode' value = '<%=cellNum[0] %>'style="width:40px">-
+                    <input type='text' name='cellMidNum' value = '<%=cellNum[1] %>'style="width:40px">-
+                    <input type='text' name='cellLastNum' value = '<%=cellNum[2] %>'style="width:40px">
              
                     <input type='radio' name='carrier' value='skt'>SKT
                     <input type='radio' name='carrier' value='kt'>KT
@@ -170,7 +156,7 @@
                 <td colspan="4">
                     <input type='button' name='domestic' value='국내'>
                     <input type='button' name='overseas' value='국외'>
-                    <input type='text' name='addr' style='width:565px'>
+                    <input type='text' name='addr' value='<%=userVO.getAddr()%>'style='width:565px'>
                 </td>
                 
             </tr>
@@ -181,7 +167,7 @@
             </tr>    
             <tr align = 'center'>
             	<td colspan='5'>
-            		<input type='submit' value='가입' />
+            		<input type='submit' value='수정' />
             		&nbsp;
 					<input type='reset' value='취소' />
 				</td>
@@ -189,5 +175,6 @@
         </table>
         
        </form>
-    </body>
+</body>
 </html>
+

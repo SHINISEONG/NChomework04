@@ -10,12 +10,12 @@ boolean findUserResult = false;
 if (!(userName == null || userName == "")) {
 	userVO = new UserVO();
 	UserDAO userDAO = new UserDAO();
-	findUserResult = userDAO.findUser(userName, userVO);
+	findUserResult = userDAO.findUser(userName,userVO);
 	
 } else {
 	userVO = (UserVO) session.getAttribute("userVO");
 	UserDAO userDAO = new UserDAO();
-	findUserResult = userDAO.findUser(userVO.getUserName(), userVO);
+	findUserResult = userDAO.findUser(userVO.getUserName(),userVO);
 }
 System.out.println(userVO);
 %>
@@ -33,10 +33,13 @@ System.out.println(userVO);
 	
 		<% if (findUserResult) {%>
 			<%=userVO %>
+			<%session.setAttribute("userVO", userVO); %>
+			<p><p><a href = 'updateUserView.jsp'>정보수정</a></p>
 		<%} else {%>
 			<br/>회원이 아닙니다.
 		<%}%>
-
+		
+		
 		<p><p><a href = 'findUser.html'>뒤로</a></p>
 </body>
 </html>
