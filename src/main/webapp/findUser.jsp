@@ -40,6 +40,6 @@ System.out.println(userVO);
 		<%}%>
 		
 		
-		<p><p><a href = 'findUser.html'>뒤로</a></p>
+		<p><p><a href = 'findUserView.jsp'>뒤로</a></p>
 </body>
 </html>

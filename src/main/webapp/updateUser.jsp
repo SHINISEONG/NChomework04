@@ -16,7 +16,7 @@ userVO.setCellNum(request.getParameter("cellCountryCode"),request.getParameter("
 userVO.setAddr(request.getParameter("addr"));
 
 
-System.out.println(userVO);
+
 
 
 UserDAO userDAO = new UserDAO();
@@ -34,12 +34,13 @@ updateUserResult = userDAO.updateUser(userVO);
 </head>
 <body>
 
-<h2>Login화면</h2>
+<h2>정보수정 결과</h2>
 		
 		<% if(updateUserResult) { %>
 			수정 성공<br>
-			<p><p><a href = './addUser.html'>뒤로</a></p>
-			<p><p><a href = './findUser.html'>내 정보 보기</a></p>
+			<% session.setAttribute("userVO", userVO);%>
+			<p><p><a href = 'updateUserView.jsp'>뒤로</a></p>
+			<p><p><a href = './findUserView.jsp'>내 정보 보기</a></p>
 			<p><p><a href = 'findUser.jsp'>내 정보 보기2</a></p>
 		<%} else { %>
 			수정 실패

@@ -6,9 +6,13 @@
 UserVO userVO = new UserVO(); 
 userVO = (UserVO)session.getAttribute("userVO"); 
 
-int birthYear = Integer.parseInt(userVO.getBirthDay().substring(0, 4));
-int birthMonth = Integer.parseInt(userVO.getBirthDay().substring(5, 7));
-int birthDate = Integer.parseInt(userVO.getBirthDay().substring(8,10));
+String[] birthDayStr = userVO.getBirthDay().split("/");
+int [] birthDay = new int[birthDayStr.length];
+for (int i = 0; i<birthDay.length; i++){
+	birthDay[i]=Integer.parseInt(birthDayStr[i]);
+	System.out.println(birthDay[i]);
+}
+System.out.println();
 String [] cellNum =userVO.getCellNum().split("-");
 %>
 <!DOCTYPE html>
@@ -58,19 +62,19 @@ String [] cellNum =userVO.getCellNum().split("-");
             <tr height="30">
                 <td>* 생년월일</td>
                
-                <td><input type='text' name='birthYear' value = '<%=birthYear%>'style="width:60px">년 &nbsp;
+                <td><input type='text' name='birthYear' value = '<%=birthDay[0]%>'style="width:60px">년 &nbsp;
                     <select name = birthMonth>
                         <option  value="none">--선택--</option>
                         
                         <% for (int i=1; i<=12; i++) {%>
-                        <option <%= birthMonth==i?"selected":""%> value="<%=i%>"><%=i %></option>
+                        <option <%= birthDay[1]==i?"selected":""%> value="<%=i%>"><%=i %></option>
                         <% } %>
                         
                     </select>월 &nbsp;
 
                     <select name = birthDate>
                          <% for (int i=1; i<=31; i++) {%>
-                        <option <%= birthMonth==i?"selected":""%> value="<%=i%>"><%=i %></option>
+                        <option <%= birthDay[2]==i?"selected":""%> value="<%=i%>"><%=i %></option>
                         <% } %>
                     </select>일
                     <td><input type='radio' name='solar' value='true' checked>양력

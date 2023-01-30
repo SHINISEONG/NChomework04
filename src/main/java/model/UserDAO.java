@@ -92,9 +92,8 @@ try {
 			
 			con = OracleConnectionPool.getInstance().getConnection();
 			
-			pr = con.prepareStatement("SELECT * FROM user_info\r\n"
-					+ "WHERE\r\n"
-					+ "user_name=?");
+			pr = con.prepareStatement("SELECT user_name, sex, TO_CHAR(birth_day,'yyyy/mm/dd') birth_day, jobs, cell_num, addr\r\n"
+					+ "FROM user_info WHERE user_name = ?");
 			pr.setString(1, userName);
 			
 			
@@ -145,17 +144,18 @@ try {
 			
 			con = OracleConnectionPool.getInstance().getConnection();
 			
-			pr = con.prepareStatement("UPDATE user_info SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )");
+			pr = con.prepareStatement("UPDATE user_info SET  user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? WHERE user_name = ?");
 			pr.setString(1, userVO.getUserName());
 			pr.setString(2, userVO.getSex());
 			pr.setString(3, userVO.getBirthDay());
 			pr.setString(4, userVO.getJobs());
 			pr.setString(5, userVO.getCellNum());
 			pr.setString(6, userVO.getAddr());
-			
+			pr.setString(7, userVO.getUserName());
 			
 			
 			if(pr.executeUpdate() == 1) {
+				
 				updateUserResult = true;				
 			} else {
 				System.out.println("UPDATE ½ÇÆÐ");
