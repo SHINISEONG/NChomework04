@@ -1,0 +1,62 @@
+HOMEWORK 02 QUERY
+
+CREATE TABLE user_info
+(
+	user_name	VARCHAR2(10)	NOT NULL,
+	sex		VARCHAR2(5)	NOT NULL,
+	birth_day	DATE,
+	jobs		VARCHAR2(10),
+	cell_num	VARCHAR2(10)	NOT NULL,
+	addr		VARCHAR2(50)
+);
+
+commit;
+
+
+INSERT INTO user_info
+(
+	user_name,
+	sex,
+	birth_day,
+	jobs,
+	cell_num,
+	addr
+)
+VALUES
+(
+	?,
+	?,
+	?,
+	?,
+	?,
+	?
+)
+
+INSERT INTO user_info
+(
+	user_name,
+	sex,
+	birth_day,
+	jobs,
+	cell_num,
+	addr
+)
+VALUES
+(
+	'신희성',
+	'male',
+	'1989/09/10',
+	'학생',
+	'010-9999-1111',
+	'경기부천시'
+);
+
+
+UPDATE SET (
+	user_name = ?,
+	sex = ?,
+	birth_day =?,
+	jobs =?,
+	cell_num=?,
+	addr=?
+)
