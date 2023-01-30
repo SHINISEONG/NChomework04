@@ -96,16 +96,17 @@ String [] cellNum =userVO.getCellNum().split("-");
             </tr>
 
             <tr height="30">
-                <td>* 직업</td>
+                <td>* 직업</td>  
                 <td>
                 <select name = jobs style="width:200px">
-                    <option <%=userVO.getJobs().equals("none") %> value="none">--선택하세요--</option>
-                    <option <%=userVO.getJobs().equals("selfEmployed") %>value="selfEmployed">자영업</option>
-                    <option <%=userVO.getJobs().equals("profession") %>value="profession">전문직</option>
-                    <option <%=userVO.getJobs().equals("service") %>value="service">서비스직</option>
-                    <option <%=userVO.getJobs().equals("office") %>value="office">사무직</option>
-                    <option <%=userVO.getJobs().equals("student") %>value="student">학생</option>
-                    <option <%=userVO.getJobs().equals("noJobs") %>value="noJobs">무직</option>
+                	<% System.out.println(userVO.getJobs()); %>
+                    <option <%=userVO.getJobs().equals("none")?"selected":"" %> value="none">--선택하세요--</option>
+                    <option <%=userVO.getJobs().equals("selfEmployed")?"selected":"" %> value="selfEmployed">자영업</option>
+                    <option <%=userVO.getJobs().equals("profession")?"selected":"" %> value="profession">전문직</option>
+                    <option <%=userVO.getJobs().equals("service")?"selected":"" %> value="service">서비스직</option>
+                    <option <%=userVO.getJobs().equals("office")?"selected":"" %> value="office">사무직</option>
+                    <option <%=userVO.getJobs().equals("student")?"selected":"" %> value="student">학생</option>
+                    <option <%=userVO.getJobs().equals("noJobs")?"selected":"" %> value="noJobs">무직</option>
                 </select>
             </td>
             <td>소속</td>

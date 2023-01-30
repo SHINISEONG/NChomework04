@@ -60,3 +60,6 @@ UPDATE SET (
 	cell_num=?,
 	addr=?
 )
+
+SELECT user_name, sex, TO_CHAR(birth_day,'yyyy/mm/dd') birth_day, jobs, cell_num, addr
+FROM user_info WHERE user_name = ?
