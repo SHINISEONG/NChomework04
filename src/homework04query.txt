@@ -52,11 +52,4 @@ VALUES
 );
 
 
-UPDATE SET (
-	user_name = ?,
-	sex = ?,
-	birth_day =?,
-	jobs =?,
-	cell_num=?,
-	addr=?
-)
+UPDATE SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )

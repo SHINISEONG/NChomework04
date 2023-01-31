@@ -7,53 +7,36 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpSession;
 
+import homework.common.dao.AbstractDao;
 import jw.common.pool.OracleConnectionPool;
 
-public class UserDAO {
-	///field
-	///constructor
+public class UserDAO extends AbstractDao {
+	/// field
+	/// constructor
 	public UserDAO() {
 	}
-	
-	///method
+
+	/// method
 	public boolean addUser(UserVO userVO) {
 		Connection con = null;
-		PreparedStatement pr = null;
-		ResultSet rs = null;
+		PreparedStatement pStmt = null;
 		boolean addUserResult = false;
-		
-try {
-			
-			con = OracleConnectionPool.getInstance().getConnection();
-			
-			pr = con.prepareStatement("INSERT INTO user_info\r\n"
-					+ "(\r\n"
-					+ "	user_name,\r\n"
-					+ "	sex,\r\n"
-					+ "	birth_day,\r\n"
-					+ "	jobs,\r\n"
-					+ "	cell_num,\r\n"
-					+ "	addr\r\n"
-					+ ")\r\n"
-					+ "VALUES\r\n"
-					+ "(\r\n"
-					+ "	?,\r\n"
-					+ "	?,\r\n"
-					+ "	?,\r\n"
-					+ "	?,\r\n"
-					+ "	?,\r\n"
-					+ "	?\r\n"
-					+ ")");
-			pr.setString(1, userVO.getUserName());
-			pr.setString(2, userVO.getSex());
-			pr.setString(3, userVO.getBirthDay());
-			pr.setString(4, userVO.getJobs());
-			pr.setString(5, userVO.getCellNum());
-			pr.setString(6, userVO.getAddr());
-			
-			
-			
-			if(pr.executeUpdate() == 1) {
+
+		try {
+
+			con = connect();
+
+			pStmt = con.prepareStatement("INSERT INTO user_info\r\n" + "(\r\n" + "	user_name,\r\n" + "	sex,\r\n"
+					+ "	birth_day,\r\n" + "	jobs,\r\n" + "	cell_num,\r\n" + "	addr\r\n" + ")\r\n" + "VALUES\r\n"
+					+ "(\r\n" + "	?,\r\n" + "	?,\r\n" + "	?,\r\n" + "	?,\r\n" + "	?,\r\n" + "	?\r\n" + ")");
+			pStmt.setString(1, userVO.getUserName());
+			pStmt.setString(2, userVO.getSex());
+			pStmt.setString(3, userVO.getBirthDay());
+			pStmt.setString(4, userVO.getJobs());
+			pStmt.setString(5, userVO.getCellNum());
+			pStmt.setString(6, userVO.getAddr());
+
+			if (pStmt.executeUpdate() == 1) {
 				addUserResult = true;
 			} else {
 				System.out.println("Insert 실패");
@@ -61,47 +44,26 @@ try {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e1) {
-				}
-			}
-			if (pr != null) {
-				try {
-					pr.close();
-				} catch (SQLException e2) {
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e3) {
-				}
-			}
+			close(con, pStmt);
 		}
 		return addUserResult;
-	}//end of userAdd()
-	
+	}// end of addUser()
+
 	public boolean findUser(String userName, UserVO userVO) {
 		Connection con = null;
-		PreparedStatement pr = null;
+		PreparedStatement pStmt = null;
 		ResultSet rs = null;
 		boolean findUserResult = false;
-try {
-			
-			con = OracleConnectionPool.getInstance().getConnection();
-			
-			pr = con.prepareStatement("SELECT * FROM user_info\r\n"
-					+ "WHERE\r\n"
-					+ "user_name=?");
-			pr.setString(1, userName);
-			
-			
-			
-			rs=pr.executeQuery();
-			
-			if(rs.next()) {
+		try {
+
+			con = connect();
+
+			pStmt = con.prepareStatement("SELECT * FROM user_info\r\n" + "WHERE\r\n" + "user_name=?");
+			pStmt.setString(1, userName);
+
+			rs = pStmt.executeQuery();
+
+			if (rs.next()) {
 				String sex = rs.getString("sex");
 				String birthDay = rs.getString("birth_day");
 				String jobs = rs.getString("jobs");
@@ -113,76 +75,40 @@ try {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e1) {
-				}
-			}
-			if (pr != null) {
-				try {
-					pr.close();
-				} catch (SQLException e2) {
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e3) {
-				}
-			}
+			close(con,pStmt,rs);
 		}
 		return findUserResult;
-	}//end of userAdd()
-	
+	}// end of findUser()
+
 	public boolean updateUser(UserVO userVO) {
 		Connection con = null;
-		PreparedStatement pr = null;
-		ResultSet rs = null;
+		PreparedStatement pStmt = null;
 		boolean updateUserResult = false;
 		System.out.println(userVO);
-try {
-			
-			con = OracleConnectionPool.getInstance().getConnection();
-			
-			pr = con.prepareStatement("UPDATE user_info SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )");
-			pr.setString(1, userVO.getUserName());
-			pr.setString(2, userVO.getSex());
-			pr.setString(3, userVO.getBirthDay());
-			pr.setString(4, userVO.getJobs());
-			pr.setString(5, userVO.getCellNum());
-			pr.setString(6, userVO.getAddr());
-			
-			
-			
-			if(pr.executeUpdate() == 1) {
-				updateUserResult = true;				
+		try {
+
+			con = connect();
+
+			pStmt = con.prepareStatement(
+					"UPDATE user_info SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )");
+			pStmt.setString(1, userVO.getUserName());
+			pStmt.setString(2, userVO.getSex());
+			pStmt.setString(3, userVO.getBirthDay());
+			pStmt.setString(4, userVO.getJobs());
+			pStmt.setString(5, userVO.getCellNum());
+			pStmt.setString(6, userVO.getAddr());
+
+			if (pStmt.executeUpdate() == 1) {
+				updateUserResult = true;
 			} else {
 				System.out.println("UPDATE 실패");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e1) {
-				}
-			}
-			if (pr != null) {
-				try {
-					pr.close();
-				} catch (SQLException e2) {
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e3) {
-				}
-			}
+			close(con,pStmt);
 		}
 		return updateUserResult;
-	}//end of updateUser()
-	
+	}// end of updateUser()
+
 }
