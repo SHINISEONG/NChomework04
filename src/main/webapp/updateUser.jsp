@@ -15,9 +15,7 @@ userVO.setJobs(request.getParameter("jobs"));
 userVO.setCellNum(request.getParameter("cellCountryCode"),request.getParameter("cellMidNum"),request.getParameter("cellLastNum"));
 userVO.setAddr(request.getParameter("addr"));
 
-
-
-
+System.out.println(userVO);
 
 UserDAO userDAO = new UserDAO();
 updateUserResult = userDAO.updateUser(userVO);

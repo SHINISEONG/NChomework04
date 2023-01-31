@@ -11,7 +11,6 @@ if (!(userName == null || userName == "")) {
 	userVO = new UserVO();
 	UserDAO userDAO = new UserDAO();
 	findUserResult = userDAO.findUser(userName,userVO);
-	
 } else {
 	userVO = (UserVO) session.getAttribute("userVO");
 	UserDAO userDAO = new UserDAO();

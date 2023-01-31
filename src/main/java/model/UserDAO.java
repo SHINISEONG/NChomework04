@@ -3,12 +3,8 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
 
 import homework.common.dao.AbstractDao;
-import jw.common.pool.OracleConnectionPool;
 
 public class UserDAO extends AbstractDao {
 	/// field
@@ -59,7 +55,8 @@ public class UserDAO extends AbstractDao {
 
 			con = connect();
 
-			pStmt = con.prepareStatement("SELECT * FROM user_info\r\n" + "WHERE\r\n" + "user_name=?");
+			pStmt = con.prepareStatement("SELECT user_name, sex, TO_CHAR(birth_day,'yyyy/mm/dd') birth_day, jobs, cell_num, addr\r\n"
+					+ "FROM user_info WHERE user_name = ?");
 			pStmt.setString(1, userName);
 
 			rs = pStmt.executeQuery();
@@ -86,20 +83,20 @@ public class UserDAO extends AbstractDao {
 		Connection con = null;
 		PreparedStatement pStmt = null;
 		boolean updateUserResult = false;
-		System.out.println(userVO);
 
 		try {
 
 			con = connect();
 
 			pStmt = con.prepareStatement(
-					"UPDATE user_info SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )");
+					"UPDATE user_info SET user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? WHERE user_name=?");
 			pStmt.setString(1, userVO.getUserName());
 			pStmt.setString(2, userVO.getSex());
 			pStmt.setString(3, userVO.getBirthDay());
 			pStmt.setString(4, userVO.getJobs());
 			pStmt.setString(5, userVO.getCellNum());
 			pStmt.setString(6, userVO.getAddr());
+			pStmt.setString(7, userVO.getUserName());
 
 			if (pStmt.executeUpdate() == 1) {
 				updateUserResult = true;
