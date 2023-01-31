@@ -52,4 +52,18 @@ VALUES
 );
 
 
+<<<<<<< HEAD
 UPDATE SET ( user_name = ?, sex = ?, birth_day =?, jobs =?, cell_num=?, addr=? )
+=======
+UPDATE SET (
+	user_name = ?,
+	sex = ?,
+	birth_day =?,
+	jobs =?,
+	cell_num=?,
+	addr=?
+)
+
+SELECT user_name, sex, TO_CHAR(birth_day,'yyyy/mm/dd') birth_day, jobs, cell_num, addr
+FROM user_info WHERE user_name = ?
+>>>>>>> branch 'master' of https://github.com/SHINISEONG/NChomework04.git

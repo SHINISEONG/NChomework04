@@ -54,6 +54,7 @@ public class UserDAO extends AbstractDao {
 		PreparedStatement pStmt = null;
 		ResultSet rs = null;
 		boolean findUserResult = false;
+
 		try {
 
 			con = connect();
@@ -64,6 +65,7 @@ public class UserDAO extends AbstractDao {
 			rs = pStmt.executeQuery();
 
 			if (rs.next()) {
+
 				String sex = rs.getString("sex");
 				String birthDay = rs.getString("birth_day");
 				String jobs = rs.getString("jobs");
@@ -75,7 +77,7 @@ public class UserDAO extends AbstractDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close(con,pStmt,rs);
+			close(con, pStmt, rs);
 		}
 		return findUserResult;
 	}// end of findUser()
@@ -85,6 +87,7 @@ public class UserDAO extends AbstractDao {
 		PreparedStatement pStmt = null;
 		boolean updateUserResult = false;
 		System.out.println(userVO);
+
 		try {
 
 			con = connect();
@@ -100,13 +103,14 @@ public class UserDAO extends AbstractDao {
 
 			if (pStmt.executeUpdate() == 1) {
 				updateUserResult = true;
+
 			} else {
 				System.out.println("UPDATE ½ÇÆÐ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			close(con,pStmt);
+			close(con, pStmt);
 		}
 		return updateUserResult;
 	}// end of updateUser()
